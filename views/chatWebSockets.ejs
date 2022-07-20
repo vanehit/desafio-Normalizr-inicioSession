@@ -1,0 +1,40 @@
+<div class="container" style="margin-top: 20px;">
+  <h4>Chat con WebSockets</h4>
+  <div style="display: flex; align-items: center; color: rgb(70, 24, 196);">
+    <h3 style="margin-right: 10px;" >Compresión: </h3>
+    <h5 id="compresion" style="margin-right: 5px;"  ></h5><h3>%</h3>
+  </div>
+  <p>(Porcentaje del chat)</p>
+  <div id="chat" style="background-color: rgb(185, 185, 185, .6);"></div>
+  <form id="form-chat">
+    <div class="mb-3">
+      <label for="email" class="form-label">Tu email</label>
+      <input type="email" class="form-control" id="email" aria-describedby="emailHelp" required>
+    </div>
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="name" required>
+    </div>
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Apellido</label>
+      <input type="text" class="form-control" id="lastName" required>
+    </div>
+    <div class="mb-3">
+      <label for="age" class="form-label">Edad</label>
+      <input type="number" class="form-control" id="age" required>
+    </div>
+    <div class="mb-3">
+      <label for="alias" class="form-label">Alias</label>
+      <input type="text" class="form-control" id="alias" required>
+    </div>
+    <div class="mb-3">
+      <label for="avatar" class="form-label">Avatar (url)</label>
+      <input type="text" class="form-control" id="avatar" required>
+    </div>
+    <div class="mb-3">
+      <label for="text" class="form-label">Mensaje</label>
+      <input type="text" class="form-control" id="text" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
