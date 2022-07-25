@@ -5,6 +5,10 @@ const { Server } = require('socket.io');
 const app = express();
 const httpServer = http.createServer(app);
 
+//sessions
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
 //import router
 const productsRouter = require('./routes/productsRouter');
 const productsRouterTest = require('./routes/productsTestRouter');
@@ -18,6 +22,16 @@ const mensajes = require('./controllers/messagesContainer');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'))
+app.use(session({
+  store: new MongoStore({
+    mongoUrl: 'mongodb://localhost/sessions'
+  }),
+  secret: 'turing',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: (60000 * 10) }
+}))
+
 
 //view engine:
 app.set('view engine', 'ejs');

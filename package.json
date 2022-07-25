@@ -1,7 +1,6 @@
 {
   "name": "desafio-normalizr",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,13 +12,24 @@
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^7.3.0",
+    "connect-mongo": "^4.6.0",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
+    "express-session": "^1.17.3",
     "knex": "^2.2.0",
     "mongoose": "^6.4.5",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.19",
     "normalizr": "^3.6.2",
     "socket.io": "^4.5.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanehit/desafio-normalizr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vanehit/desafio-normalizr/issues"
+  },
+  "homepage": "https://github.com/vanehit/desafio-normalizr#readme",
+  "description": ""
 }

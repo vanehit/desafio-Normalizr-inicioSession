@@ -1,0 +1,33 @@
+<%- include( 'partials/head' ) %>
+
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand me-5" href="/">Página de productos</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+
+<% if ( username != ''){ %>
+<div
+  class="alert alert-success m-auto p-3"
+  style="display: flex; justify-content: space-between"
+  role="alert"
+>
+  <h4 class="text-primary">Hasta luego <%= username %></h4>
+  <button type="button" class="btn btn-danger">
+    <a href="/login" style="text-decoration: none; color: white"
+      >Volver a ingresar</a
+    >
+  </button>
+</div>
+<% } %>

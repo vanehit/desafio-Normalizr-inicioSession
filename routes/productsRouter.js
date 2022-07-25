@@ -1,6 +1,37 @@
 const router = require('express').Router();
 const dbSQL = require('../controllers/ProductsContainer');
 
+//middlewares
+const auth = (req, res, next) => {
+  if (req.session.username) {
+    return next()
+  }
+
+  return res.status(401).redirect('/login')
+}
+
+//loggins
+router.get('/login', (req, res) => {
+
+  let { username } = req.query;
+
+  if (!username) return res.status(401).render('login');
+
+  req.session.username = username;
+  req.session.admin = true;
+
+  res.redirect('/');
+});
+
+router.get('/logout', (req, res) => {
+  const username = req.session.username;
+  req.session.destroy(err => {
+    if (!err) res.render('logout', { username: username })
+    else res.send({ status: 'Logout ERROR ', body: err })
+  })
+
+})
+
 router.get('/', (req, res) => {
   res.render('index', { messages: '' });
 });

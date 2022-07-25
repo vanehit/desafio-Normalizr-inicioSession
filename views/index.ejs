@@ -1,6 +1,20 @@
 <%- include( 'partials/head' ) %>
 <body>
     <%- include( 'partials/navbar' ) %>
+
+    <% if ( username != ''){ %>
+        <div class="alert alert-success m-auto p-3" style="display: flex; justify-content: space-between;" role="alert">
+            <h4 class="text-primary" >
+                Bienvenide, <%= nombre %>
+            </h4>
+            <button type="button" class="btn btn-danger">
+                <a href="/logout" style="text-decoration: none; color:white;">Log out</a>
+            </button>
+        </div>
+    <% } %>
+
+
+
     <form id="form" style="width: 70%;" class="m-auto mt-5" method="POST" action="/products">
         <div class="mb-3">
             <label for="title" class="form-label">Nombre del producto</label>
