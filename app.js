@@ -4,58 +4,96 @@ const http = require('http');
 const { Server } = require('socket.io');
 const app = express();
 const httpServer = http.createServer(app);
-
-//sessions
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const bcryptjs = require( 'bcryptjs' );
 
-//import router
-const productsRouter = require('./routes/productsRouter');
-const productsRouterTest = require('./routes/productsTestRouter');
+//User model
+const User = require( './model/User.models' );
 
+//Routes
+const productsRoutes = require('./routes/productsRouter');
+const authRoutes = require('./routes/authRoutes');
 
-//sockets. Contenedor de msg
+//sockets.
 const io = new Server(httpServer);
-const mensajes = require('./controllers/messagesContainer');
+const socketsMsg = require( './websocket/messajesWebsockets' );
+io.on('connection', socketsMsg);
 
 //Settings
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('./public'))
+app.use(express.static('./public'));
 app.use(session({
-  store: new MongoStore({
-    mongoUrl: 'mongodb://localhost/sessions'
-  }),
   secret: 'turing',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: (60000 * 10) }
+  rolling: true,
+  cookie: {
+    maxAge: 60000*10,
+    secure: false,
+    httpOnly: true
+  }
 }))
-
 
 //view engine:
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
-//websockets:
+//passport
+passport.use( 'login', new LocalStrategy(
+  async ( username, password, done ) => {
+    const user = await User.findOne({ username });
+    if( !user ) {
+      return done( null, false );
+    }
+    const validPasswd = bcryptjs.compareSync( password, user.password );
+    if( !validPasswd ){
+      return done( null, false );
+    }
 
-io.on('connection', (socket) => {
-  console.log('Usuario conectado, ID: ' + socket.id);
+    return done( null, user );
+  }
+) )
 
-  mensajes.getAll().then(messages => {
-    socket.emit('messages', messages);
-  });
+passport.use( 'singup', new LocalStrategy(
+  { passReqToCallback: true },
+  async ( req, username, password, done ) => {
+    const user = await User.findOne({ username })
+    if( user ) {
+      return done( null, false )
+    };
 
-  socket.on('newMessage', (newMessage) => {
-    mensajes.newMessage(newMessage)
-      .then( () => mensajes.getAll()
-        .then(messages => io.sockets.emit('messages', messages)));
-  });
+    const newUser = { username, password }
+    //Encriptar la PW:
+    const salt = bcryptjs.genSaltSync();
+    newUser.password = bcryptjs.hashSync( newUser.password, salt );
+
+    await User.create( newUser);
+    return done( null, newUser );
+  }
+) );
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
 });
 
-//Routes
-app.use('/', productsRouter );
-app.use('/api/productos-test', productsRouterTest);
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
+app.use( passport.initialize() );
+app.use( passport.session() );
+
+//Routes
+app.use('/', productsRoutes);
+app.use('/auth', authRoutes);
+app.get('/*', (req, res) => {
+  res.json({
+    error: -2,
+    msg: "Ruta no implementada."
+  })
+});
 
 module.exports = httpServer;

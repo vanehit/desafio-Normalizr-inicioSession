@@ -1,80 +1,36 @@
 const router = require('express').Router();
-const dbSQL = require('../controllers/ProductsContainer');
+const {
+  createProductsTable,
+  getAllProducts,
+  getProductById,
+  newProduct,
+  updateProduct,
+  deleteProduct
+} = require('../controllers/Products.Controller');
 
-//middlewares
-const auth = (req, res, next) => {
-  if (req.session.username) {
-    return next()
-  }
+const validateUser = require('../middlewares/validate.user');
 
-  return res.status(401).redirect('/login')
-}
+//helpers:
+const toCamel = require('../helpers/camelCase')
 
-//loggins
-router.get('/login', (req, res) => {
-
-  let { username } = req.query;
-
-  if (!username) return res.status(401).render('login');
-
-  req.session.username = username;
-  req.session.admin = true;
-
-  res.redirect('/');
+//Rutas:
+//INDEX:
+router.get('/', validateUser, (req, res) => {
+  let { username } = req.session.passport.user;
+  username = toCamel(username);
+  res.render('index', { message: '', username });
 });
 
-router.get('/logout', (req, res) => {
-  const username = req.session.username;
-  req.session.destroy(err => {
-    if (!err) res.render('logout', { username: username })
-    else res.send({ status: 'Logout ERROR ', body: err })
-  })
+//CRUD PRODUCTS:
+router.get('/products', validateUser, getAllProducts);
 
-})
+router.get('/products/:id', validateUser, getProductById);
 
-router.get('/', (req, res) => {
-  res.render('index', { messages: '' });
-});
+router.post('/products', validateUser, newProduct);
 
+router.put('/products/:id', validateUser, updateProduct);
 
-router.get('/products', (req, res) => {
-  dbSQL.getAll()
-    .then(products => res.render('productos', { products: products }))
-});
-
-router.get('/products/:id', (req, res) => {
-  const id = Number(req.params.id);
-  dbSQL.getById(id)
-    .then(result => {
-      (result.length < 1)
-        ? res.json({ error: 'Producto no encontrado.' })
-        : res.json(result)
-    })
-});
-
-
-router.post('/products', (req, res) => {
-  const newProd = req.body;
-  dbSQL.newProduct(newProd)
-    .then(() => res.render('index', { messages: 'Producto agregado' }));
-});
-
-
-router.put('/products/:id', (req, res) => {
-  const id = req.params.id;
-  const product = req.body;
-
-  dbSQL.updateProduct(product, id)
-    .then(() => res.json({ messages: 'Producto editado' }))
-});
-
-
-router.delete('/products/:id', (req, res) => {
-  const id = req.params.id;
-
-  dbSQL.deleteProduct(id)
-    .then(() => res.json({ messages: 'Producto eliminado' }))
-});
+router.delete('/products/:id', validateUser, deleteProduct);
 
 
 module.exports = router;

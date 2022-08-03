@@ -1,0 +1,29 @@
+<%- include( 'partials/head' ) %>
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand me-5" href="/">Página de productos</a>
+    <a href="/auth/login">
+      <button type="button" class="btn btn-success me-4">Ingresar</button>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+
+<div class="alert alert-danger w-50 m-auto mt-4" role="alert">
+  <h4 class="alert-heading">No se ha completado el registro</h4>
+  <p>El nombre de usuario que intentas seleccionar ya esta en uso. Intenta con otro!.</p>
+  <hr>
+  <a href="/auth/register">
+    <button type="button" class="btn btn-success me-4">Intentar de nuevo</button>
+  </a>
+</div>

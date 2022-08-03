@@ -1,0 +1,31 @@
+<%- include( 'partials/head' ) %>
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand me-5" href="/">Página de productos</a>
+    <a href="/auth/login">
+      <button type="button" class="btn btn-success me-4">Ingresar</button>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+
+<form class="w-50 m-auto mt-5 bg-light p-5" id="login-form" action="/auth/register" method="POST">
+  <h4 class="text-primary" >Registrarse</h4>
+  <div class="mb-3">
+    <label for="username" class="form-label" id="login-name">Nombre:</label>
+    <input type="text" class="form-control" id="username" name="username" required/>
+    <label for="password" class="form-label" id="login-name">Password:</label>
+    <input type="password" class="form-control" id="password" name="password" required/>
+  </div>
+  <button type="submit" class="btn btn-primary" id="login-submit">Guardar datos</button>
+</form>
