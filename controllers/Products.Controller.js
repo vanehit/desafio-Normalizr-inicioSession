@@ -1,4 +1,4 @@
-const options = require('../db/options/optionsMysql');
+const options = require('../database/options/mysql');
 const knex = require('knex')(options);
 
 

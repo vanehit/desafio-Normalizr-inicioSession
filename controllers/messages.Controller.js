@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { normalize, denormalize, schema } = require('normalizr');
-const msgFile = path.join(__dirname + '/../db/messages.txt');
+const msgFile = path.join(__dirname + '../database/options/mysql.js');
 
 const authorSchema = new schema.Entity('authors');
 const messagesSchema = new schema.Entity('messages', {

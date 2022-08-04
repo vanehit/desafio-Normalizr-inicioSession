@@ -6,7 +6,7 @@ const {
   newProduct,
   updateProduct,
   deleteProduct
-} = require('../controllers/Products.Controller');
+} = require('../controllers/Products.Controller')
 
 const validateUser = require('../middlewares/validate.user');
 
