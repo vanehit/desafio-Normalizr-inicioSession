@@ -1,11 +1,13 @@
+const { DB_HOST, DB_USERNAME, DB_NAME, DB_TABLE} = process.env;
+
 const options = {
     client: 'mysql',
     connection: {
-      host: '127.0.0.1',
-      user: 'root',
+      host: DB_HOST,
+      user: DB_USERNAME,
       password: '',
-      database: 'mysqlecommerce',
-      table: 'productos'
+      database: DB_NAME,
+      table: DB_TABLE
     }
   }
   

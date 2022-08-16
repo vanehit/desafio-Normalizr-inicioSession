@@ -1,14 +1,22 @@
 const httpServer = require( './app' );
-const PORT = process.env.PORT || 8080;
 const mongoose = require( 'mongoose' );
+const yargs = require('yargs')(process.argv.slice(2));
+
+
+const argv = yargs
+  .default({
+    port: 8080
+  }).alias({
+    p: 'port'
+  }).argv;
+
 
 //Server listening
-
 async function main(){
-  mongoose.connect('mongodb://localhost:27017/usuarios')
+  mongoose.connect(process.env.MONGO_URI)
     .then( () => console.log( 'MongoDB connected!' ) )
-  const server = httpServer.listen(PORT, () => {
-    console.log(`Server on PORT: ${PORT}`);
+  const server = httpServer.listen(argv.port, () => {
+    console.log(`Server on PORT: ${argv.port}`);
   });
   server.on('error', err => console.log('Error en el server: ' + err));
 }
