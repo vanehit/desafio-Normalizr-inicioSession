@@ -1,16 +1,24 @@
-const random = () => {
+console.log('Child created!')
+process.on('message', cant => {
 
-}
+  const result = randoms(cant)
 
-process.on('message', msg => {
-    let cant = parseInt(msg.cant)
+  process.send(result)
+  setTimeout( process.exit, 5000 )
+} )
 
-    const result = {}
-    for (let i = 0; i < cant; i++) {
-        const num = Math.ceil(Math.random()*1000)
-        if (num in result) result[num]++
-        else result[num] = 1
+const randoms = (cant) => {
+  const param = Number(cant);
+  const numbers = {};
+
+  for(let i=0; i<param; i++){
+    const randomNum = Math.floor((Math.random() * (1000)) + 1)
+    if(!numbers[randomNum]){
+      numbers[randomNum] = 1
+    } else {
+      numbers[randomNum] ++
     }
+  }
 
-    process.send(result)
-}) 
+  return numbers;
+}

@@ -1,5 +1,5 @@
 const express = require('express')
-const generate = require('../randoms')
+const generate = require('../ramdoms')
 const { fork } = require('child_process')
 
 const app = express()
