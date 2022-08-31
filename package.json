@@ -21,6 +21,7 @@
     "express-session": "^1.17.3",
     "jsonwebtoken": "^8.5.1",
     "knex": "^2.2.0",
+    "log4js": "^6.6.1",
     "mongoose": "^6.4.5",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
@@ -39,6 +40,5 @@
     "url": "https://github.com/vanehit/desafio-normalizr/issues"
   },
   "homepage": "https://github.com/vanehit/desafio-normalizr#readme",
-  "devDependencies": {},
   "description": ""
 }

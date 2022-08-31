@@ -9,21 +9,33 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcryptjs = require( 'bcryptjs' );
 require('dotenv').config();
+const log4js = require('log4js')
 
-//User model
+log4js.configure({
+  appenders: {
+    myLoggerConsole: { type: "console" },
+    myLoggerFileWarn: { type: 'file', filename: 'warn.log' },
+    myLoggerFileError: { type: 'file', filename: 'error.log' }
+  },
+  categories: {
+    default: { appenders: ['myLoggerConsole'], level: "info" },
+    info: { appenders: ['myLoggerConsole'], level: "info" },
+    warn: { appenders: ['myLoggerConsole', 'myLoggerFileWarn'], level: "warn" },
+    error: { appenders: ['myLoggerConsole', 'myLoggerFileError'], level: "error" }
+  }
+});
+
+
 const User = require( './model/User.models' );
 
-//Routes
 const productsRoutes = require('./routes/productsRouter');
 const authRoutes = require('./routes/authRoutes');
 const randomRoutes = require( './routes/ramdomRoutes' )
 
-//sockets.
 const io = new Server(httpServer);
 const socketsMsg = require( './websocket/messajesWebsockets' );
 io.on('connection', socketsMsg);
 
-//Settings
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
@@ -39,11 +51,10 @@ app.use(session({
   }
 }))
 
-//view engine:
+
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
-//passport
 passport.use( 'login', new LocalStrategy(
   async ( username, password, done ) => {
     const user = await User.findOne({ username });
@@ -68,7 +79,6 @@ passport.use( 'singup', new LocalStrategy(
     };
 
     const newUser = { username, password }
-    //Encriptar la PW:
     const salt = bcryptjs.genSaltSync();
     newUser.password = bcryptjs.hashSync( newUser.password, salt );
 

@@ -1,4 +1,7 @@
 const router = require('express').Router();
+const log4js = require('log4js')
+
+
 const {
   createProductsTable,
   getAllProducts,
@@ -10,18 +13,19 @@ const {
 
 const validateUser = require('../middlewares/validate.user');
 
-//helpers:
+
 const toCamel = require('../helpers/camelCase')
 
-//Rutas:
-//INDEX:
+
 router.get('/', validateUser, (req, res) => {
+  const logger = log4js.getLogger('info');
+  logger.info(`${req.method}: ${req.url}`);
   let { username } = req.session.passport.user;
   username = toCamel(username);
-  res.render('index', { message: '', username });
+  res.render('index', { mesage: '', username });
 });
 
-//CRUD PRODUCTS:
+
 router.get('/products', validateUser, getAllProducts);
 
 router.get('/products/:id', validateUser, getProductById);
