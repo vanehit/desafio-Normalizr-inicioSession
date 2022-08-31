@@ -11,7 +11,6 @@ const argv = yargs
   }).argv;
 
 
-//Server listening
 async function main(){
   mongoose.connect(process.env.MONGO_URI)
     .then( () => console.log( 'MongoDB connected!' ) )

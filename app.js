@@ -9,6 +9,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcryptjs = require( 'bcryptjs' );
 require('dotenv').config();
+const compression = require('compression');
 const log4js = require('log4js')
 
 log4js.configure({
@@ -28,9 +29,10 @@ log4js.configure({
 
 const User = require( './model/User.models' );
 
+//Routes
 const productsRoutes = require('./routes/productsRouter');
 const authRoutes = require('./routes/authRoutes');
-const randomRoutes = require( './routes/ramdomRoutes' )
+const randomRoutes = require('./routes/ramdomRoutes')
 
 const io = new Server(httpServer);
 const socketsMsg = require( './websocket/messajesWebsockets' );
@@ -50,6 +52,8 @@ app.use(session({
     httpOnly: true
   }
 }))
+
+app.use(compression());
 
 
 app.set('view engine', 'ejs');
@@ -101,7 +105,8 @@ app.use( passport.session() );
 //Routes
 app.use('/', productsRoutes);
 app.use('/auth', authRoutes);
-app.use( '/api/randoms', randomRoutes )
+app.use('/api/randoms', randomRoutes)
+
 app.get('/info', ( req, res ) => {
   res.json({
     "Argumentos de entrada": process.argv,

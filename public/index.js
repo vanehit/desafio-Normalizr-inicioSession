@@ -22,7 +22,7 @@ socket.on('messages', (normalizedData) => {
 function renderMessage(data) {
   const html = data.map(msg => {
     return (`
-      <div>
+      <div style="border-top: 1px solid grey;">
         <img src="${msg.author.avatar}" style="margin: 5px; max-width: 50px; max-heigth: 50px;" alt="img"></img>
         <strong style="color: blue">${msg.author.alias}</strong>
         <p style="color: brown; font-size: 14px; display: inline-block">[ ${msg.date} ] :</p>

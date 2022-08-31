@@ -36,5 +36,4 @@ router.put('/products/:id', validateUser, updateProduct);
 
 router.delete('/products/:id', validateUser, deleteProduct);
 
-
 module.exports = router;
